@@ -21,7 +21,7 @@ class CreateAddressesTable extends Migration
             $table->string('state');
             $table->string('country');
             $table->string('zip_code');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\review;
 use App\Http\Requests\StorereviewRequest;
 use App\Http\Requests\UpdatereviewRequest;
+use App\Http\Resources\ReviewResource;
+
 
 class ReviewController extends Controller
 {
@@ -15,7 +17,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        return ReviewResource::Collection(Review::all());
     }
 
     /**

@@ -21,11 +21,11 @@ class CreateProductsTable extends Migration
             $table->integer('count');
             $table->integer('rate');
             $table->string('discount');
-            $table->unsignedBigInteger('occasion_id');
+            $table->unsignedBigInteger('occasion_id')->nullable();
             $table->foreign('occasion_id')->references('id')->on('occasions')->onDelete('cascade');
-            $table->unsignedBigInteger('department_id');
+            $table->unsignedBigInteger('department_id')->nullable();
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

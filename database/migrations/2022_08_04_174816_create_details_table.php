@@ -17,7 +17,7 @@ class CreateDetailsTable extends Migration
             $table->id();
             $table->string('key');
             $table->string('value');
-            $table->unsignedBigInteger('department_id');
+            $table->unsignedBigInteger('department_id')->nullable();
             $table->foreign('department_id')->references('parent_id')->on('departments')->onDelete('cascade');
             $table->timestamps();
         });

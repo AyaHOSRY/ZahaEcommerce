@@ -16,7 +16,7 @@ class department extends Model
         return $this->belongsTo(Department::class, 'parent_id'); //$user= User::find($id); //$parent= $user->parent()->first(); // $children = $user->children()->get();
     }
 
-    public function children()
+    public function childrens()
     {
         return $this->hasMany(Department::class, 'parent_id');
     }
