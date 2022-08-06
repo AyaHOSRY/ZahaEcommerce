@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\occasion;
 use App\Http\Requests\StoreoccasionRequest;
 use App\Http\Requests\UpdateoccasionRequest;
+use App\Http\Resources\OccasionResource;
 
 class OccasionController extends Controller
 {
@@ -15,7 +16,7 @@ class OccasionController extends Controller
      */
     public function index()
     {
-        //
+        return OccasionResource::collection(Occasion::all());
     }
 
     /**
@@ -36,7 +37,13 @@ class OccasionController extends Controller
      */
     public function store(StoreoccasionRequest $request)
     {
-        //
+        $occasion = new Occasion;
+        $occasion->name = $request->name;
+        $occasion->save();
+
+        return response([
+            'data' => new OccasionResource($occasion)
+        ],201);
     }
 
     /**

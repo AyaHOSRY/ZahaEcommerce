@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Product;
-use App\Http\Detail;
+use App\Models\Product;
+use App\Models\Detail;
 
 class department extends Model
 {

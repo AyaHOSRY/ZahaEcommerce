@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
-
+use App\Http\Resources\OccasionResource;
 
 class ProductController extends Controller
 {
@@ -38,7 +38,13 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $occasion = new Occasion;
+        $occasion->name = $request->name;
+        $occasion->save();
+
+        return response([
+            'data' => new OccasionResource($occasion)
+        ],201);
     }
 
     /**

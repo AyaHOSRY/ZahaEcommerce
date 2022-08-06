@@ -6,7 +6,7 @@ use App\Models\review;
 use App\Http\Requests\StorereviewRequest;
 use App\Http\Requests\UpdatereviewRequest;
 use App\Http\Resources\ReviewResource;
-
+use App\Models\Product;
 
 class ReviewController extends Controller
 {
@@ -15,9 +15,9 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(product $product)
     {
-        return ReviewResource::Collection(Review::all());
+        return ReviewResource::Collection($product->reviews);
     }
 
     /**
@@ -49,7 +49,7 @@ class ReviewController extends Controller
      */
     public function show(review $review)
     {
-        //
+        
     }
 
     /**

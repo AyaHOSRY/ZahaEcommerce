@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\address;
 use App\Http\Requests\StoreaddressRequest;
 use App\Http\Requests\UpdateaddressRequest;
-
+use App\Http\Resources\AddressResource;
+use App\Http\Resources\AddressCollection;
+use App\Models\User;
 class AddressController extends Controller
 {
     /**
@@ -13,9 +15,9 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        return AddressResource::collection($user->addresses);
     }
 
     /**
