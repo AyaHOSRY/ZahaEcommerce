@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\size;
 use App\Http\Requests\StoresizeRequest;
 use App\Http\Requests\UpdatesizeRequest;
-
+use App\Http\Resources\SizeResource;
 class SizeController extends Controller
 {
     /**
@@ -15,7 +15,7 @@ class SizeController extends Controller
      */
     public function index()
     {
-        //
+        return SizeResource::collection(Size::all());
     }
 
     /**
@@ -36,7 +36,12 @@ class SizeController extends Controller
      */
     public function store(StoresizeRequest $request)
     {
-        //
+        $size = new Size;
+        $size->name = $request->name;
+        $size->save();
+        return response([
+            'data'=> new SizeResource($size)
+        ],201);
     }
 
     /**
@@ -70,7 +75,11 @@ class SizeController extends Controller
      */
     public function update(UpdatesizeRequest $request, size $size)
     {
-        //
+        $size->name = $request->name;
+        $size->save();
+        return response([
+            'data'=> new SizeResource($size)
+        ],201);
     }
 
     /**
@@ -81,6 +90,7 @@ class SizeController extends Controller
      */
     public function destroy(size $size)
     {
-        //
+        $size->delete();
+        return response(null,204);
     }
 }

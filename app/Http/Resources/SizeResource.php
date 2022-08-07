@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OccasionResource extends JsonResource
+class SizeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,6 @@ class OccasionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return[
-        'id' => $this->id,
-        'name' => $this->name,
-        ];
+        return parent::toArray($request);
     }
 }

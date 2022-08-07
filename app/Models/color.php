@@ -10,6 +10,9 @@ use App\Models\Product;
 class color extends Model
 {
     use HasFactory;
+    protected $fillable= [
+        'name',
+    ];
 
     public function products()
     {

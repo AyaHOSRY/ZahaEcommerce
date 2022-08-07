@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\department;
 use App\Http\Requests\StoredepartmentRequest;
 use App\Http\Requests\UpdatedepartmentRequest;
+use App\Http\Resources\DepartmentResource;
 
 class DepartmentController extends Controller
 {
@@ -15,7 +16,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+       // return Department::all();
+        return DepartmentResource::collection(Department::all());
+
     }
 
     /**
@@ -36,7 +39,14 @@ class DepartmentController extends Controller
      */
     public function store(StoredepartmentRequest $request)
     {
-        //
+        $department = new Department;
+        $department->id = $request->id;
+        $department->name = $request->name;
+        $department->parent_id = $request->parent_id;
+        $department->save();
+        return response([
+            'data'=> new DepartmentResource($department)
+        ],201);
     }
 
     /**
@@ -68,9 +78,16 @@ class DepartmentController extends Controller
      * @param  \App\Models\department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatedepartmentRequest $request, department $department)
+    public function update(UpdatedepartmentRequest $request, $id)
     {
-        //
+        $department = Department::find($id);
+       // $department->update($request->all());
+       $department->name = $request->name;
+       $department->parent_id = $request->parent_id;
+        $department->save();
+        return response([
+            'data'=> new DepartmentResource($department)
+         ],201);
     }
 
     /**

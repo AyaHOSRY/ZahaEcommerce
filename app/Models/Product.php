@@ -18,6 +18,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+      'name', 'price', 'description', 'count', 'rate', 'discount', 'occasion_id', 'department_id', 'user_id'
+  ];
+
     public function occasion()
     {
         return $this->belongsTo(Occasion::class);

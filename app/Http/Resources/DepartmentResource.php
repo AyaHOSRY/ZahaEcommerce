@@ -15,10 +15,15 @@ class DepartmentResource extends JsonResource
     public function toArray($request)
     {
       //  return parent::toArray($request);
+      if($this->parent_id == 0)
       return [
-       
+        'id' => $this->id,
         'department'=> $this->name,
-        'categories'=> ChildrenResource::collection($this->childrens),
+        'categories'=>  ChildrenResource::collection($this->childrens)
       ];
+      /*return [
+        'id' => $this->id,
+        'category'=> $this->name,
+      ];*/
     }
 }

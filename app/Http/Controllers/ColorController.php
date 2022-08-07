@@ -73,9 +73,13 @@ class ColorController extends Controller
      * @param  \App\Models\color  $color
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatecolorRequest $request, color $color)
+    public function update(UpdatecolorRequest $request, $id)
     {
-        //
+        $color = Color::find($id);
+        $color->update($request->all());
+        return response([
+            'data'=> new ColorResource($color)
+         ],201);
     }
 
     /**
@@ -86,6 +90,7 @@ class ColorController extends Controller
      */
     public function destroy(color $color)
     {
-        //
+      $color->delete();
+      return response(null,204);
     }
 }

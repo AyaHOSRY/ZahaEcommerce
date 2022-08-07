@@ -10,6 +10,9 @@ use App\Models\Detail;
 class department extends Model
 {
     use HasFactory;
+    protected $fillable= [
+       'name', 'parent_id'
+  ];
 
     public function parent()
     {

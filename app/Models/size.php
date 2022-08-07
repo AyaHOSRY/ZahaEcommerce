@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class size extends Model
 {
     use HasFactory;
-
+     
+    protected $fillable=[
+        'name'
+    ];
     public function products()
     {
         return $this->belongsToMany(Product::class);

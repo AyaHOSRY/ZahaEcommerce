@@ -6,7 +6,8 @@ use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\OccasionResource;
+use App\Models\User;
+use Auth; 
 
 class ProductController extends Controller
 {
@@ -38,13 +39,24 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $occasion = new Occasion;
-        $occasion->name = $request->name;
-        $occasion->save();
+       
+       // $data = Product::create($request->validated());
+        
+         $product = new Product;
+         $product->name = $request->name;
+         $product->price = $request->price;
+         $product->description = $request->description;
+         $product->count = $request->count;
+         $product->rate = $request->rate;
+         $product->discount = $request->discount;
+         $product->occasion_id = $request->occasion_id;
+         $product->department_id = $request->department_id;
+         $product->user_id = auth('api')->user()->id;
+         $product->save();
+         return response([
+            'data'=> new ProductResource($product)
+         ],201);
 
-        return response([
-            'data' => new OccasionResource($occasion)
-        ],201);
     }
 
     /**
@@ -77,9 +89,27 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, $id)
     {
-        //
+        
+       $product= Product::find($id);
+        $product->update($request->validated());
+        return response([
+            'data'=> new ProductResource($product)
+         ],201);
+        /* $product= Product::find($id);
+         $product->name = $request->name;
+         $product->price = $request->price;
+         $product->description = $request->description;
+         $product->count = $request->count;
+         $product->rate = $request->rate;
+         $product->discount = $request->discount;
+         $product->occasion_id = $request->occasion_id;
+         $product->department_id = $request->department_id;
+         $product->save();
+         return response([
+            'data'=> new ProductResource($product)
+         ],201);*/
     }
 
     /**
@@ -92,4 +122,7 @@ class ProductController extends Controller
     {
         //
     }
+
+
+
 }
