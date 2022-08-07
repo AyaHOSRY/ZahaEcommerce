@@ -13,7 +13,7 @@ class StoreaddressRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreaddressRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+        'street1' => 'required|max:225',
+        'street2' => 'required|max:225',
+        'city'=>'required|max:225',
+        'state'=> 'required|max:225',
+        'country'=> 'required|max:225',
+        'zip_code'=> 'required|max:225',
         ];
     }
 }

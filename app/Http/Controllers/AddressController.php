@@ -36,9 +36,24 @@ class AddressController extends Controller
      * @param  \App\Http\Requests\StoreaddressRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreaddressRequest $request)
+    public function store(StoreaddressRequest $request, User $user)
     {
-        //
+       // $address = Address::create($request->all());
+        /*$address = new Address;
+        $address->name = $request->street1;
+        $address->save();*/
+        $address= new Address;
+        $address->street1 = $request->street1;
+        $address->street2 = $request->street2;
+        $address->city = $request->city;
+        $address->state = $request->state;
+        $address->country = $request->country;
+        $address->zip_code = $request->zip_code;
+        $address->user_id = auth('api')->user()->id;
+        $address->save();
+        return response([
+            'data'=> new AddressResource($address)
+        ],201);
     }
 
     /**
@@ -70,9 +85,22 @@ class AddressController extends Controller
      * @param  \App\Models\address  $address
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateaddressRequest $request, address $address)
+    public function update(UpdateaddressRequest $request, User $user,  $id)
     {
-        //
+        $address= Address::find($id);
+        $address->street1 = $request->street1;
+        $address->street2 = $request->street2;
+        $address->city = $request->city;
+        $address->state = $request->state;
+        $address->country = $request->country;
+        $address->zip_code = $request->zip_code;
+        $address->user_id = auth('api')->user()->id;
+        $address->save();
+           
+       //$address->update($request->all());
+        return response([
+            'data'=> new AddressResource($address)
+        ],201);
     }
 
     /**
