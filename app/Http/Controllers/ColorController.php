@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\color;
+use App\Models\Product;
 use App\Http\Requests\StorecolorRequest;
 use App\Http\Requests\UpdatecolorRequest;
 use App\Http\Resources\ColorResource;
@@ -16,6 +17,17 @@ class ColorController extends Controller
     public function index()
     {
         return ColorResource::collection(Color::all());
+    }
+
+    public function product_color($id)
+    {
+            $product = Product::findOrfail($id);
+            return ColorResource::collection($product->colors);
+    }
+
+    public function product_color_create()
+    {
+
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\color;
 use App\Http\Resources\ColorResource;
+use App\Http\Resources\ProductColorResource;
 use App\Http\Requests\ProductColorRequest;
 
 class ProuductColorController extends Controller
@@ -38,14 +39,23 @@ class ProuductColorController extends Controller
      */
     public function store(ProductColorRequest $request, Product $product)
     {
-        //$product = Product::find($id);
-
-        //$product->colors()->attach($request);
-        $ProductColor = $product->colors()->sync([
-            'product_id'=> $product->id,
+        //$id = Product::find($id);
+       /* $product = Product::find($id);
+        $product->colors()->attach([
             'color_id'=> $request->color_id,
             'image'=> $request->image,
         ]);
+       $product->colors()->attach([
+            'product_id'=> $product->id,
+            'color_id'=> $request->color_id,
+            'image'=> $request->image,
+        ]);*/
+        $ProductColor = $product->colors()->sync([
+           // 'product_id'=> $product->id,
+            'color_id'=> $request->color_id,
+            //'image'=> $request->image,
+        ]);
+        //$product->colors()->sync($request->colors, false);
         return response([
             'data' => new ProductColorResource($ProductColor)
         ],201);

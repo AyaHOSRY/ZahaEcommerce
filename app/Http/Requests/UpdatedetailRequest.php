@@ -13,7 +13,7 @@ class UpdatedetailRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class UpdatedetailRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required',
+            'key' => 'required|max:255',
+            'value' => 'nullable|max:255',
+            
         ];
     }
 }

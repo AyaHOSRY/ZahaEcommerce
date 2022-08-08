@@ -24,7 +24,10 @@ class StoredetailRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required|integer',
+            'key' => 'required|max:255',
+            'value' => 'nullable|max:255',
+            'department_id' => 'required',
         ];
     }
 }

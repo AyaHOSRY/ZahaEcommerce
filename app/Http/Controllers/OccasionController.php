@@ -88,6 +88,7 @@ class OccasionController extends Controller
      */
     public function destroy(occasion $occasion)
     {
-        //
+        $occasion->delete();
+        return response(null,404);
     }
 }

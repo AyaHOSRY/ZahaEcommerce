@@ -52,9 +52,12 @@ Route::middleware(['auth:api', 'AdminMiddleware'])->group(function(){
     Route::post('/colors',[ColorController::class , 'store'])->name('colors.store');
     Route::put('/colors/{color}',[ColorController::class , 'update'])->name('colors.update');
     Route::delete('/colors/{color}',[ColorController::class , 'destroy'])->name('colors.destroy');
+    
 });
 Route::middleware('auth:api')->group(function(){
     Route::get('/colors',[ColorController::class , 'index'])->name('colors.index');
+    Route::get('/products/{id}/colors',[ColorController::class , 'product_color'])->name('products.colors');
+    Route::post('/products/{id}/colors/{color}',[ColorController::class , 'product_color_create'])->name('productcolor.create');
     //Route::get('/colors/{color}',[ColorController::class , 'show'])->name('colors.show');
     
 });
@@ -96,15 +99,17 @@ Route::middleware('auth:api')->group(function(){
         Route::get('products/{product}/reviews',[ReviewController::class , 'index'])->name('reviews.index');
         Route::post('products/{product}/reviews',[ReviewController::class , 'store'])->name('reviews.store')->middleware('CustomMiddleware');
         Route::put('products/{product}/reviews',[ReviewController::class , 'update'])->name('reviews.update')->middleware('CustomMiddleware');
-        Route::delete('products/{product}/reviews',[ReviewController::class , 'delete'])->name('reviews.delete')->middleware('CustomMiddleware');
+        Route::delete('products/{product}/reviews',[ReviewController::class , 'destroy'])->name('reviews.destroy')->middleware('CustomMiddleware');
 
 });
 
 
 
 //Route::apiResource('occasions', OccasionController::class);
-Route::post('/occasions', [OccasionController::class , 'store'])->name('occasions.store')->middleware('SellerMiddleware');
-Route::delete('/occasions/{occasion}', [OccasionController::class , 'delete'])->name('occasions.delete')->middleware('SellerMiddleware');
+Route::middleware(['auth:api' , 'AdminMiddleware'])->group(function(){
+Route::post('/occasions', [OccasionController::class , 'store'])->name('occasions.store');
+Route::delete('/occasions/{occasion}', [OccasionController::class , 'destroy'])->name('occasions.destroy');
+});
 Route::get('/occasions', [OccasionController::class , 'index'])->name('occasions.index')->middleware('auth:api');
 Route::apiResource('users', UserController::class)->middleware('AdminMiddleware');
 //address

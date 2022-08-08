@@ -16,7 +16,7 @@ class DetailResource extends JsonResource
     {
       //  return parent::toArray($request);
       return [
-        'id' => $this->id,
+        'id'=>$this->id,
         'key'=> $this->key,
         'value'=> $this->value,
         'department_id'=>$this->department_id

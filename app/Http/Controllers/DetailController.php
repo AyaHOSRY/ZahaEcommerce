@@ -15,7 +15,7 @@ class DetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Department $department)
+    public function index(department $department)
     {
         return DetailResource::collection($department->details);
     }
@@ -36,15 +36,12 @@ class DetailController extends Controller
      * @param  \App\Http\Requests\StoredetailRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoredetailRequest $request, Department $department)
+    public function store(StoredetailRequest $request,Department $department)
     {
-        $detail = new Detail;
-        $detail->id = $request->id;
-        $detail->key = $request->key;
-        $detail->department_id = $department->id;
-        $detail->save();
+        $detail = new Detail ($request->all());
+        $department->details()->save($detail);
         return response([
-            'data'=> new detailResource($detail)
+            'data'=> new DetailResource($detail)
         ],201);
     }
 
@@ -77,9 +74,16 @@ class DetailController extends Controller
      * @param  \App\Models\detail  $detail
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatedetailRequest $request, detail $detail)
+    public function update(UpdatedetailRequest $request, Department $department ,detail  $detail)
     {
-        //
+        $detail->id = $request->id;
+        $detail->key = $request->key;
+        $detail->department_id = $department->id;
+        $detail->save();
+       //$detail->update($request->validated());
+        return response([
+            'data'=> new DetailResource($detail)
+         ],201);
     }
 
     /**
@@ -88,8 +92,9 @@ class DetailController extends Controller
      * @param  \App\Models\detail  $detail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(detail $detail)
+    public function destroy(Department $department, detail $detail)
     {
-        //
+        $detail->delete();
+        return response(null,404);
     }
 }

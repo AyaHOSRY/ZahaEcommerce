@@ -25,7 +25,7 @@ class ProductColorRequest extends FormRequest
     {
         return [
             'color_id'=> 'required',
-            'image'=> 'required'
+           // 'image'=> 'required'
             
         ];
     }
