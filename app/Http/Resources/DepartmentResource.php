@@ -19,8 +19,14 @@ class DepartmentResource extends JsonResource
       return [
         'id' => $this->id,
         'department'=> $this->name,
-        'categories'=>  ChildrenResource::collection($this->childrens)
-      ];
+        'categories'=> ChildrenResource::collection($this->childrens),
+      ];/*}elseif($this->parent_id !== 0)
+      {
+        return [
+          'id' => $this->id,
+          'categories'=> $this->name,
+          
+        ];}*/
       /*return [
         'id' => $this->id,
         'category'=> $this->name,

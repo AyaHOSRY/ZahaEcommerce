@@ -36,7 +36,7 @@ class ReviewController extends Controller
      * @param  \App\Http\Requests\StorereviewRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorereviewRequest $request)
+    public function store(StorereviewRequest $request, User $user)
     {
         $review = Review::create($request->all());
         return response([

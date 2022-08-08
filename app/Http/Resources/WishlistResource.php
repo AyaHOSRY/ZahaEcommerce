@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ChildrenResource extends JsonResource
+class WishlistResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +14,10 @@ class ChildrenResource extends JsonResource
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
-        return[
-           
-            'data'=> $this->name,
-            
-        ];
+       // return parent::toArray($request);
+       return [
+        'product'=> $this->product->name,
+        'user'=>auth('api')->user()->id,
+       ];
     }
 }

@@ -12,6 +12,8 @@ use App\Http\Controllers\ProuductColorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\DetailController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -65,6 +67,7 @@ Route::middleware(['auth:api', 'AdminMiddleware'])->group(function(){
 Route::middleware('auth:api')->group(function(){
     Route::get('/sizes',[SizeController::class , 'index'])->name('sizes.index');
 });
+
 //department
 Route::middleware(['auth:api', 'AdminMiddleware'])->group(function(){
     Route::post('/departments',[DepartmentController::class , 'store'])->name('departments.store');
@@ -73,6 +76,17 @@ Route::middleware(['auth:api', 'AdminMiddleware'])->group(function(){
 });
 Route::middleware('auth:api')->group(function(){
     Route::get('/departments',[DepartmentController::class , 'index'])->name('departments.index');
+});
+
+///
+//details
+Route::middleware(['auth:api', 'AdminMiddleware'])->group(function(){
+    Route::post('department/{department}/details',[DetailController::class , 'store'])->name('details.store');
+    Route::put('department/{department}/details/{detail}',[DetailController::class , 'update'])->name('details.update');
+    Route::delete('department/{department}/details/{detail}',[DetailController::class , 'destroy'])->name('details.destroy');
+});
+Route::middleware('auth:api')->group(function(){
+    Route::get('department/{department}/details',[DetailController::class , 'index'])->name('details.index');
 });
 
 ////
@@ -98,4 +112,12 @@ Route::middleware('auth:api')->group(function(){
 Route::apiResource('users/{user}/addresses', AddressController::class );
 });
 
+
+////wishlist
+Route::middleware(['auth:api', 'CustomMiddleware'])->group(function(){
+    Route::post('users/{user}/wishlists',[WishlistController::class , 'store'])->name('wishlists.store');
+    Route::get('users/{user}/wishlists',[WishlistController::class , 'index'])->name('wishlists.index');
+    Route::get('users/{user}/wishlists/{wishlist}',[WishlistController::class , 'show'])->name('wishlists.show');
+    Route::delete('users/{user}/wishlists/{wishlist}',[WishlistController::class , 'destroy'])->name('wishlists.destroy');
+});
 Route::apiResource('products/{product}/colors', ProuductColorController::class);

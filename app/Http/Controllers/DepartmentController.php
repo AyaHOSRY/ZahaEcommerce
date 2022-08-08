@@ -16,8 +16,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-       // return Department::all();
-        return DepartmentResource::collection(Department::all());
+       return DepartmentResource::collection(Department::all());
+        // return Department::all();
+         
 
     }
 
@@ -98,6 +99,7 @@ class DepartmentController extends Controller
      */
     public function destroy(department $department)
     {
-        //
+        $department->delete();
+        return response(null,204);
     }
 }

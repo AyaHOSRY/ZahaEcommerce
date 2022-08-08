@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\wishlist;
 use App\Http\Requests\StorewishlistRequest;
 use App\Http\Requests\UpdatewishlistRequest;
+use App\Http\Resources\WishlistResource;
+use App\Models\User;
+use Auth;
 
 class WishlistController extends Controller
 {
@@ -13,10 +16,14 @@ class WishlistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        
+        //$user = User::find($id);
+        return WishlistResource::Collection($user->wishlists);
     }
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -36,7 +43,10 @@ class WishlistController extends Controller
      */
     public function store(StorewishlistRequest $request)
     {
-        //
+        $wishlist = Wishlist::create($request->all());
+        return response([
+            'data'=> new WishlistResource($wishlist)
+        ],201);
     }
 
     /**
@@ -50,6 +60,8 @@ class WishlistController extends Controller
         //
     }
 
+
+    
     /**
      * Show the form for editing the specified resource.
      *

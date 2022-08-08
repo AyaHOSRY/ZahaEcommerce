@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\detail;
+use App\Models\department;
 use App\Http\Requests\StoredetailRequest;
 use App\Http\Requests\UpdatedetailRequest;
+use App\Http\Resources\DetailResource;
 
 class DetailController extends Controller
 {
@@ -13,9 +15,9 @@ class DetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Department $department)
     {
-        //
+        return DetailResource::collection($department->details);
     }
 
     /**
@@ -34,9 +36,16 @@ class DetailController extends Controller
      * @param  \App\Http\Requests\StoredetailRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoredetailRequest $request)
+    public function store(StoredetailRequest $request, Department $department)
     {
-        //
+        $detail = new Detail;
+        $detail->id = $request->id;
+        $detail->key = $request->key;
+        $detail->department_id = $department->id;
+        $detail->save();
+        return response([
+            'data'=> new detailResource($detail)
+        ],201);
     }
 
     /**
