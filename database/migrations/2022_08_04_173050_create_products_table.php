@@ -19,8 +19,8 @@ class CreateProductsTable extends Migration
             $table->string('price');
             $table->text('description');
             $table->integer('count');
-            $table->integer('rate');
-            $table->string('discount');
+            $table->integer('rate')->nullable();
+            $table->string('discount')->nullable();
             $table->unsignedBigInteger('occasion_id')->nullable();
             $table->foreign('occasion_id')->references('id')->on('occasions')->onDelete('cascade');
             $table->unsignedBigInteger('department_id')->nullable();

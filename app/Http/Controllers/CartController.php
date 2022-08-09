@@ -6,7 +6,7 @@ use App\Models\cart;
 use App\Http\Requests\StorecartRequest;
 use App\Http\Requests\UpdatecartRequest;
 use App\Http\Resources\CartResource;
-
+use Auth;
 class CartController extends Controller
 {
     /**
@@ -38,7 +38,18 @@ class CartController extends Controller
      */
     public function store(StorecartRequest $request)
     {
-       
+        $user = auth('api')->user()->id;
+        $cart = new Cart;
+        $cart->user_id = $user;
+        $cart->sub_total = $request->sub_total;
+        $cart->shipping = $request->shipping;
+        $cart->total = $request->total;
+
+        $cart->save();
+
+        return response([
+            'data'=> new CartResource($cart)
+        ],201);
     }
 
     /**
@@ -49,7 +60,8 @@ class CartController extends Controller
      */
     public function show(cart $cart)
     {
-        //
+        return $cart->products;   //get one cart products
+        return new CartResource($cart);  //get the cart 
     }
 
     /**
@@ -70,9 +82,18 @@ class CartController extends Controller
      * @param  \App\Models\cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatecartRequest $request, cart $cart)
+    public function update(UpdatecartRequest $request, $id)
     {
-        //
+         $cart= Cart::find($id);
+         $this->CheckUser($cart);
+        $products = $cart->products;
+         $cart->sub_total = $products->price;
+         $cart->shipping = $request->shipping;
+         $cart->total = $products->sub_total + $request->shipping;
+         $cart->save();
+         return response([
+            'data'=> new CartResource($cart)
+         ],201);
     }
 
     /**
@@ -83,6 +104,15 @@ class CartController extends Controller
      */
     public function destroy(cart $cart)
     {
-        //
+        $this->CheckUser($cart);
+        $cart->delete();
+        return response(null,402);
+    }
+
+    public function CheckUser($cart)
+    {
+        if(Auth::id() !== $cart->user_id){
+            throw new NotBelongToUser;
+        }
     }
 }

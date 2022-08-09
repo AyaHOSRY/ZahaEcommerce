@@ -17,9 +17,9 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('sub_total');
+            $table->string('sub_total')->nullable();
             $table->string('shipping')->nullable();
-            $table->string('total');
+            $table->string('total')->nullable();
             $table->timestamps();
         });
     }

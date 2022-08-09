@@ -13,7 +13,7 @@ class StorecartRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StorecartRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'sub_total'=>'nullable',
+            'shipping'=>'nullable',
+            'total'=>'nullable'
         ];
     }
 }

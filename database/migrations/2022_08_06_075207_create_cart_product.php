@@ -21,7 +21,7 @@ class CreateCartProduct extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('count');
             $table->string('price');
-            $table->string('discount');
+            $table->string('discount')->nullable();
             $table->timestamps();
         });
     }

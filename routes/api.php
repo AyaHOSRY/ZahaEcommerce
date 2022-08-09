@@ -16,6 +16,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProuductSizeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductCartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,7 +39,7 @@ use App\Http\Controllers\CartController;
 
     //products//
 //Route::apiResource('products', ProductController::class);
-Route::middleware(['auth:api', 'SellerMiddleware'])->group(function(){
+Route::middleware(['auth:api'/*, 'SellerMiddleware'*/])->group(function(){
     Route::post('/products',[ProductController::class , 'store'])->name('products.store');
     Route::put('/products/{product}',[ProductController::class , 'update'])->name('products.update');
     Route::delete('/products/{product}',[ProductController::class , 'destroy'])->name('products.destroy');
@@ -128,12 +129,14 @@ Route::middleware(['auth:api', 'CustomMiddleware'])->group(function(){
     Route::get('users/{user}/wishlists/{wishlist}',[WishlistController::class , 'show'])->name('wishlists.show');
     Route::delete('/wishlists/{wishlist}',[WishlistController::class , 'destroy'])->name('wishlists.destroy');
 });
-Route::apiResource('products/{product}/colors', ProuductColorController::class);
+Route::apiResource('products/{product}/colors', ProuductColorController::class);/////
 Route::post('products/{product}/sizes', [ProuductSizeController::class, 'store']);
 Route::get('/products/{product}/sizes', [ProuductSizeController::class, 'get_products_sizes']);
 //cart
 Route::middleware(['auth:api'/*, 'CustomMiddleware'*/])->group(function(){
-    Route::post('/carts',[CartController::class , 'store'])->name('carts.store');
-    Route::get('/carts',[CartController::class , 'index'])->name('carts.store');
+    Route::apiResource('/carts',CartController::class );
+    
+    Route::post('/carts/{cart}/products/{product}',[ProductCartController::class , 'store'])->name('carts.products');
+    Route::get('/carts/{cart}/products',[ProductCartController::class , 'index'])->name('carts.allproducts');
     
 });

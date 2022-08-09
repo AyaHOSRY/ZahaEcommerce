@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\User;
 use Auth; 
+use Validator;
 
 class ProductController extends Controller
 {
@@ -41,9 +42,9 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
        
-       // $data = Product::create($request->validated());
+       // $product = Product::create($request->validated());
         
-         $product = new Product;
+        $product = new Product;
          $product->name = $request->name;
          $product->price = $request->price;
          $product->description = $request->description;
