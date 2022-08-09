@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\color;
 use App\Http\Resources\ColorResource;
-use App\Http\Resources\ProductColorResource;
+use App\Http\Resources\ProductResource;
 use App\Http\Requests\ProductColorRequest;
 
 class ProuductColorController extends Controller
@@ -37,29 +37,32 @@ class ProuductColorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductColorRequest $request, Product $product)
+    public function store(ProductColorRequest $request, $id)
     {
-        //$id = Product::find($id);
-       /* $product = Product::find($id);
+        $product = Product::find($id);
+       
+       $ProductColor =$product->colors()->attach($request->color_id,['image' => $request->image]);
+       return response([
+        'status' => 'success'
+    ],201);
+    }
+/* $product = Product::find($id);
         $product->colors()->attach([
             'color_id'=> $request->color_id,
             'image'=> $request->image,
-        ]);
-       $product->colors()->attach([
-            'product_id'=> $product->id,
-            'color_id'=> $request->color_id,
-            'image'=> $request->image,
         ]);*/
-        $ProductColor = $product->colors()->sync([
-           // 'product_id'=> $product->id,
+      /* [
+        // 'product_id'=> $product->id,
+         'color_id'=> $request->color_id,
+         //'image'=> $request->image,
+     ]*/
+       /* $ProductColor = $product->colors()->sync([
+           'product_id'=> $product->id,
             'color_id'=> $request->color_id,
             //'image'=> $request->image,
-        ]);
-        //$product->colors()->sync($request->colors, false);
-        return response([
-            'data' => new ProductColorResource($ProductColor)
-        ],201);
-    }
+        ]);*/
+        //$ProductColor = $product->colors()->sync($request->colors, false);
+        
 
     /**
      * Display the specified resource.

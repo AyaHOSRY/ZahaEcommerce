@@ -24,7 +24,7 @@ class StorewishlistRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+           //
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateaddressRequest;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\AddressCollection;
 use App\Models\User;
+use Auth;
 class AddressController extends Controller
 {
     /**
@@ -15,8 +16,9 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
+        $user = auth('api')->user();
         return AddressResource::collection($user->addresses);
     }
 
@@ -36,7 +38,7 @@ class AddressController extends Controller
      * @param  \App\Http\Requests\StoreaddressRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreaddressRequest $request, User $user)
+    public function store(StoreaddressRequest $request)
     {
        // $address = Address::create($request->all());
         /*$address = new Address;
@@ -85,9 +87,11 @@ class AddressController extends Controller
      * @param  \App\Models\address  $address
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateaddressRequest $request, User $user,  $id)
+    public function update(UpdateaddressRequest $request,  $id)
     {
+        
         $address= Address::find($id);
+        $this->CheckUser($address);
         $address->street1 = $request->street1;
         $address->street2 = $request->street2;
         $address->city = $request->city;
@@ -111,7 +115,15 @@ class AddressController extends Controller
      */
     public function destroy(address $address)
     {
+        $this->CheckUser($address);
         $address->delete();
         return response(null,404);
+    }
+
+    public function CheckUser($address)
+    {
+        if(Auth::id() !== $address->user_id){
+            throw new NotBelongToUser;
+        }
     }
 }

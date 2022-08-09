@@ -14,7 +14,7 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-       // return parent::toArray($request);
+       $occasion = $this->whenLoaded('occasion');
        return [
        'name' => $this->name,
        'price' => $this->price,
@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
        'occasion'=> new OccasionResource($this->occasion),
        'department'=> new DepartmentResource($this->department),
        'seller'=> new UserResource($this->user),
+       
        'link'=> [
          'reviews'=>route('reviews.index' , $this->id),
        ]

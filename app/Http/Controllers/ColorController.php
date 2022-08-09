@@ -21,14 +21,14 @@ class ColorController extends Controller
 
     public function product_color($id)
     {
-            $product = Product::findOrfail($id);
+            $product = Product::findOrFail($id);
             return ColorResource::collection($product->colors);
     }
 
-    public function product_color_create()
+    /*public function product_color_create()
     {
-
-    }
+          
+    }*/
 
     /**
      * Show the form for creating a new resource.

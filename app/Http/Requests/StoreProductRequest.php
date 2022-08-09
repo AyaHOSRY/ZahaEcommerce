@@ -26,14 +26,12 @@ class StoreProductRequest extends FormRequest
         return [
        'name' => 'required|max:255',
        'price' => 'required|max:10',
-       'description'=>'required',
+       'description'=>'required|text',
        'count'=> 'required|max:10',
-       'rate'=> 'required|max:1',
+       'rate'=> 'nullable|max:1',
        'discount'=> 'required|max:2',
        'occasion_id'=> 'required',
        'department_id'=> 'required',
-       
-       
-        ];
+       ];
     }
 }

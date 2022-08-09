@@ -16,7 +16,11 @@ class UserResource extends JsonResource
     {
        // return parent::toArray($request);
        return [
-        'name'=> $this->fullname,
+        'fullname'=> $this->fullname,
+        'username' => $this->username,
+        'email' => $this->email,
+        'user_type'=>$this->user_type,
+        'addresses' => AddressResource::collection($this->whenLoaded('addresses')),
        ];
     }
 }

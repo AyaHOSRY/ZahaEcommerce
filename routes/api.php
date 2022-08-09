@@ -14,6 +14,8 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DetailController;
+use App\Http\Controllers\ProuductSizeController;
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,7 +44,7 @@ Route::middleware(['auth:api', 'SellerMiddleware'])->group(function(){
     Route::delete('/products/{product}',[ProductController::class , 'destroy'])->name('products.destroy');
 });
 Route::middleware('auth:api')->group(function(){
-    Route::get('/products',[ProductController::class , 'index'])->name('products.index');
+    Route::get('/products',[ProductController::class , 'index'])->name('products.index');//visitor
     Route::get('/products/{product}',[ProductController::class , 'show'])->name('products.show');
     
 });
@@ -57,7 +59,7 @@ Route::middleware(['auth:api', 'AdminMiddleware'])->group(function(){
 Route::middleware('auth:api')->group(function(){
     Route::get('/colors',[ColorController::class , 'index'])->name('colors.index');
     Route::get('/products/{id}/colors',[ColorController::class , 'product_color'])->name('products.colors');
-    Route::post('/products/{id}/colors/{color}',[ColorController::class , 'product_color_create'])->name('productcolor.create');
+   // Route::post('/products/{id}/colors/{color}',[ColorController::class , 'product_color_create'])->name('productcolor.create');
     //Route::get('/colors/{color}',[ColorController::class , 'show'])->name('colors.show');
     
 });
@@ -85,11 +87,12 @@ Route::middleware('auth:api')->group(function(){
 //details
 Route::middleware(['auth:api', 'AdminMiddleware'])->group(function(){
     Route::post('department/{department}/details',[DetailController::class , 'store'])->name('details.store');
-    Route::put('department/{department}/details/{detail}',[DetailController::class , 'update'])->name('details.update');
+    //Route::put('department/{department}/details/{detail}',[DetailController::class , 'update'])->name('details.update');
     Route::delete('department/{department}/details/{detail}',[DetailController::class , 'destroy'])->name('details.destroy');
 });
 Route::middleware('auth:api')->group(function(){
     Route::get('department/{department}/details',[DetailController::class , 'index'])->name('details.index');
+    Route::put('department/{department}/details/{detail}',[DetailController::class , 'value_add'])->name('details.value')->middleware('SellerMiddleware');
 });
 
 ////
@@ -111,18 +114,26 @@ Route::post('/occasions', [OccasionController::class , 'store'])->name('occasion
 Route::delete('/occasions/{occasion}', [OccasionController::class , 'destroy'])->name('occasions.destroy');
 });
 Route::get('/occasions', [OccasionController::class , 'index'])->name('occasions.index')->middleware('auth:api');
-Route::apiResource('users', UserController::class)->middleware('AdminMiddleware');
+Route::apiResource('/users', UserController::class)->middleware('AdminMiddleware');
 //address
-Route::middleware('auth:api')->group(function(){
-Route::apiResource('users/{user}/addresses', AddressController::class );
+Route::middleware(['auth:api' , 'CustomMiddleware'])->group(function(){
+Route::apiResource('/addresses', AddressController::class );
 });
 
 
 ////wishlist
 Route::middleware(['auth:api', 'CustomMiddleware'])->group(function(){
-    Route::post('users/{user}/wishlists',[WishlistController::class , 'store'])->name('wishlists.store');
-    Route::get('users/{user}/wishlists',[WishlistController::class , 'index'])->name('wishlists.index');
+    Route::post('products/{product}/wishlists',[WishlistController::class , 'store'])->name('wishlists.store');
+    Route::get('/wishlists',[WishlistController::class , 'index'])->name('wishlists.index');
     Route::get('users/{user}/wishlists/{wishlist}',[WishlistController::class , 'show'])->name('wishlists.show');
-    Route::delete('users/{user}/wishlists/{wishlist}',[WishlistController::class , 'destroy'])->name('wishlists.destroy');
+    Route::delete('/wishlists/{wishlist}',[WishlistController::class , 'destroy'])->name('wishlists.destroy');
 });
 Route::apiResource('products/{product}/colors', ProuductColorController::class);
+Route::post('products/{product}/sizes', [ProuductSizeController::class, 'store']);
+Route::get('/products/{product}/sizes', [ProuductSizeController::class, 'get_products_sizes']);
+//cart
+Route::middleware(['auth:api'/*, 'CustomMiddleware'*/])->group(function(){
+    Route::post('/carts',[CartController::class , 'store'])->name('carts.store');
+    Route::get('/carts',[CartController::class , 'index'])->name('carts.store');
+    
+});

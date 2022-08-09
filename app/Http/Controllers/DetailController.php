@@ -45,6 +45,17 @@ class DetailController extends Controller
         ],201);
     }
 
+    public function value_add( UpdatedetailRequest $request, Department $department ,detail  $detail)
+    {
+        
+        $detail->value = $request->value;
+        $detail->save();
+        
+        return response([
+            'data'=> 'success'
+         ],201);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -74,7 +85,7 @@ class DetailController extends Controller
      * @param  \App\Models\detail  $detail
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatedetailRequest $request, Department $department ,detail  $detail)
+   /* public function update(UpdatedetailRequest $request, Department $department ,detail  $detail)
     {
         $detail->id = $request->id;
         $detail->key = $request->key;
@@ -85,7 +96,7 @@ class DetailController extends Controller
             'data'=> new DetailResource($detail)
          ],201);
     }
-
+*/
     /**
      * Remove the specified resource from storage.
      *

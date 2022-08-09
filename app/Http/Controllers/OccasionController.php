@@ -16,7 +16,9 @@ class OccasionController extends Controller
      */
     public function index()
     {
-        return OccasionResource::collection(Occasion::all());
+        $occasions = Occasion::with(['products']);
+        return OccasionResource::collection($occasions->paginate(50))->response();
+      //  return OccasionResource::collection(Occasion::all());
     }
 
     /**
@@ -37,7 +39,7 @@ class OccasionController extends Controller
      */
     public function store(StoreoccasionRequest $request)
     {
-        $occasion = new Occasion;
+       $occasion = new Occasion;
         $occasion->name = $request->name;
         $occasion->save();
 

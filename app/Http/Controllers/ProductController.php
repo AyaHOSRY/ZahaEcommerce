@@ -16,9 +16,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
-       return ProductResource::collection(Product::all());
+        $user = auth('api')->user();
+       return ProductResource::collection($user->products);
     }
 
     /**
@@ -91,8 +92,9 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, $id)
     {
-        
-       $product= Product::find($id);
+        $product= Product::find($id);
+        $this->CheckUser($product);
+       
         $product->update($request->validated());
         return response([
             'data'=> new ProductResource($product)
@@ -120,7 +122,16 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $this->CheckUser($product);
+        $product->delete();
+        return response(null,402);
+    }
+
+    public function CheckUser($product)
+    {
+        if(Auth::id() !== $product->user_id){
+            throw new NotBelongToUser;
+        }
     }
 
 

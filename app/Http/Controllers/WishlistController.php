@@ -6,7 +6,7 @@ use App\Models\wishlist;
 use App\Http\Requests\StorewishlistRequest;
 use App\Http\Requests\UpdatewishlistRequest;
 use App\Http\Resources\WishlistResource;
-use App\Models\User;
+use App\Models\product;
 use Auth;
 
 class WishlistController extends Controller
@@ -16,10 +16,10 @@ class WishlistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
         
-        //$user = User::find($id);
+        $user = auth('api')->user();
         return WishlistResource::Collection($user->wishlists);
     }
 
@@ -41,12 +41,20 @@ class WishlistController extends Controller
      * @param  \App\Http\Requests\StorewishlistRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorewishlistRequest $request)
+    public function store(StorewishlistRequest $request, product $product)
     {
-        $wishlist = Wishlist::create($request->all());
+        $user = auth('api')->user()->id;
+        $wishlist = new Wishlist;
+        $wishlist->product_id = $product->id;
+        $wishlist->user_id = $user;
+        $wishlist->save();
         return response([
             'data'=> new WishlistResource($wishlist)
         ],201);
+       /* $wishlist = Wishlist::create($request->all());
+        return response([
+            'data'=> new WishlistResource($wishlist)
+        ],201);*/
     }
 
     /**
@@ -93,6 +101,15 @@ class WishlistController extends Controller
      */
     public function destroy(wishlist $wishlist)
     {
-        //
+        $this->CheckUser($wishlist);
+        $wishlist->delete();
+        return response(null,402);
+    }
+
+    public function CheckUser($wishlist)
+    {
+        if(Auth::id() !== $wishlist->user_id){
+            throw new NotBelongToUser;
+        }
     }
 }

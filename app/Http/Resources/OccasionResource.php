@@ -17,6 +17,7 @@ class OccasionResource extends JsonResource
         return[
         'id' => $this->id,
         'name' => $this->name,
+        'products' => ProductResource::collection($this->whenLoaded('products')), //to load the relationships when it is been eagerly loaded 
         ];
     }
 }

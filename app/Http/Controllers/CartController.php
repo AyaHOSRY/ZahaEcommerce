@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\cart;
 use App\Http\Requests\StorecartRequest;
 use App\Http\Requests\UpdatecartRequest;
+use App\Http\Resources\CartResource;
 
 class CartController extends Controller
 {
@@ -14,8 +15,9 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    { 
+        $user = auth('api')->user();
+        return CartResource::Collection($user->carts);
     }
 
     /**
@@ -36,7 +38,7 @@ class CartController extends Controller
      */
     public function store(StorecartRequest $request)
     {
-        //
+       
     }
 
     /**

@@ -24,9 +24,8 @@ class UpdatedetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required',
-            'key' => 'required|max:255',
-            'value' => 'nullable|max:255',
+            
+            'value' => 'required|max:255',
             
         ];
     }

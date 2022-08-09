@@ -14,6 +14,7 @@ class AddressResource extends JsonResource
      */
     public function toArray($request)
     {
+      $user = $this->whenLoaded('user');
       //  return parent::toArray($request);
       return [
         'street1' => $this->street1,

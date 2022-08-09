@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\AddressResource;
+use App\Http\Resources\UserResource;
 
+use App\Models\User;
 class UserController extends Controller
 {
     /**
@@ -13,7 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return UserResource::collection(User::all());
+      /*  $user = User::with(['addresses']);
+        return AddressResource::collection($user->paginate())->response();*/
     }
 
     /**
@@ -77,8 +82,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+       $user->delete();
+       return response(null,402);
     }
 }
