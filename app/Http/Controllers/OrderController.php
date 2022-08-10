@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\order;
 use App\Http\Requests\StoreorderRequest;
 use App\Http\Requests\UpdateorderRequest;
+use App\Http\Resources\OrderResource;
 
 class OrderController extends Controller
 {
@@ -59,7 +60,7 @@ class OrderController extends Controller
      */
     public function show(order $order)
     {
-        return $order->products;   //get one order products
+        //return $order->products;   //get one order products
         return new OrderResource($order);  //get the order
     }
 
@@ -85,7 +86,7 @@ class OrderController extends Controller
     {
       //  $order= Order::find($id);
         //$this->CheckUser($cart);
-        $products_price_total = $order->products()->sum('total') ;
+         $products_price_total = $order->products()->sum('total') ;
        
          $order->sub_total = $products_price_total;
          $order->shipping = $request->shipping;

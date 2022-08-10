@@ -24,7 +24,9 @@ class StoreorderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'sub_total'=>'nullable',
+            'shipping'=>'nullable',
+            'total'=>'nullable'
         ];
     }
 }

@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         return UserResource::collection(User::all());
-      /*  $user = User::with(['addresses']);
+      /* $user = User::with(['addresses']);
         return AddressResource::collection($user->paginate())->response();*/
     }
 
