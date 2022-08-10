@@ -19,7 +19,8 @@ class CartResource extends JsonResource
         
         'sub_total'=> $this->sub_total,
         'shipping'=> $this->shipping,
-        'total'=> $this->sub_total + $this->shipping,
+        'total'=> $this->total ,
+        //'products'=> ProductResource::collection($this->whenLoaded('products')),
 
        ];
     }

@@ -6,6 +6,7 @@ use App\Models\cart;
 use App\Http\Requests\StorecartRequest;
 use App\Http\Requests\UpdatecartRequest;
 use App\Http\Resources\CartResource;
+use App\Exceptions\NotBelongToUser;
 use Auth;
 class CartController extends Controller
 {
@@ -84,16 +85,24 @@ class CartController extends Controller
      */
     public function update(UpdatecartRequest $request, $id)
     {
-         $cart= Cart::find($id);
-         $this->CheckUser($cart);
-        $products = $cart->products;
-         $cart->sub_total = $products->price;
+        $cart= Cart::find($id);
+        //$this->CheckUser($cart);
+        $products_price_total = $cart->products()->sum('total') ;
+       
+         $cart->sub_total = $products_price_total;
          $cart->shipping = $request->shipping;
-         $cart->total = $products->sub_total + $request->shipping;
+         $cart->total = $products_price_total + $request->shipping;
          $cart->save();
          return response([
             'data'=> new CartResource($cart)
          ],201);
+       // return $cart->products->sum('price')- $cart->products->sum('price')* $cart->products->sum('dicount%') * $cart->products->sum('count');
+       //$carts = DB::table('cart_product')->where('')
+      // return $cart->products->where('');
+     // return $cart->products()->sum('total');
+      //$this->CheckUser($cart);
+       // $products_price = $cart->products->sum('price') ;
+         
     }
 
     /**
@@ -104,15 +113,15 @@ class CartController extends Controller
      */
     public function destroy(cart $cart)
     {
-        $this->CheckUser($cart);
+        //$this->CheckUser($cart);
         $cart->delete();
         return response(null,402);
     }
 
-    public function CheckUser($cart)
+    /*public function CheckUser($cart)
     {
         if(Auth::id() !== $cart->user_id){
             throw new NotBelongToUser;
         }
-    }
+    }*/
 }

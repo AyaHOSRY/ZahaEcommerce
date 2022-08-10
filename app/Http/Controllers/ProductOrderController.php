@@ -3,26 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Cart;
-use App\Http\Resources\CartResource;
-use App\Http\Resources\ProductResource;
-use App\Http\Requests\ProductCartRequest;
 
-class ProductCartController extends Controller
+class ProductOrderController extends Controller
 {
     public function index($id)
     { 
         $user = auth('api')->user();
-        return CartResource::Collection($user->carts);
+        return OrderResource::Collection($user->orders);
     }
 
 
-    public function store(ProductCartRequest $request, Cart $cart, Product $product)
+    public function store(ProductOrderRequest $request, Order $order, Product $product)
     {
        // $cart = Cart::find($id);
        $discountPrice = $product->discount/100 ;
-        $ProductCart =$cart->products()->attach($product->id,[
+        $ProductOrder =$order->products()->attach($product->id,[
             'count' => $request->count,
             'price'=>$product->price,
             'discount'=>$product->discount,

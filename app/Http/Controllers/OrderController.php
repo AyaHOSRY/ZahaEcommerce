@@ -15,7 +15,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth('api')->user();
+        return OrderResource::Collection($user->orders);
     }
 
     /**
@@ -36,7 +37,18 @@ class OrderController extends Controller
      */
     public function store(StoreorderRequest $request)
     {
-        //
+        $user = auth('api')->user()->id;
+        $order = new Order;
+        $order->user_id = $user;
+        $order->sub_total = $request->sub_total;
+        $order->shipping = $request->shipping;
+        $order->total = $request->total;
+
+        $order->save();
+
+        return response([
+            'data'=> new OrderResource($order)
+        ],201);
     }
 
     /**
@@ -47,7 +59,8 @@ class OrderController extends Controller
      */
     public function show(order $order)
     {
-        //
+        return $order->products;   //get one order products
+        return new OrderResource($order);  //get the order
     }
 
     /**
@@ -70,7 +83,17 @@ class OrderController extends Controller
      */
     public function update(UpdateorderRequest $request, order $order)
     {
-        //
+      //  $order= Order::find($id);
+        //$this->CheckUser($cart);
+        $products_price_total = $order->products()->sum('total') ;
+       
+         $order->sub_total = $products_price_total;
+         $order->shipping = $request->shipping;
+         $order->total = $products_price_total + $request->shipping;
+         $order->save();
+         return response([
+            'data'=> new OrderResource($order)
+         ],201);
     }
 
     /**
@@ -81,6 +104,7 @@ class OrderController extends Controller
      */
     public function destroy(order $order)
     {
-        //
+        $order->delete();
+        return response(null,402);
     }
 }

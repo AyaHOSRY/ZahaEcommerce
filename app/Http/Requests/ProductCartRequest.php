@@ -27,7 +27,9 @@ class ProductCartRequest extends FormRequest
            // 'product_id'=> 'required',
           /*  'count'=> 'required',
             'price'=> 'required',
-            'discount'=> 'required'*/
+            ,
+            'total' => 'required;*/
+            'count'=> 'required'
         ];
     }
 }

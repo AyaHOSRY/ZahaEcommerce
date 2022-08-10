@@ -17,6 +17,8 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProuductSizeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductCartController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductOrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -138,5 +140,13 @@ Route::middleware(['auth:api'/*, 'CustomMiddleware'*/])->group(function(){
     
     Route::post('/carts/{cart}/products/{product}',[ProductCartController::class , 'store'])->name('carts.products');
     Route::get('/carts/{cart}/products',[ProductCartController::class , 'index'])->name('carts.allproducts');
+    
+});
+
+Route::middleware(['auth:api'/*, 'CustomMiddleware'*/])->group(function(){
+    Route::apiResource('/orders',OrderController::class );
+    
+    Route::post('/orders/{order}/products/{product}',[ProductOrderController::class , 'store'])->name('Orders.products');
+    Route::get('/orders/{order}/products',[ProductOrderController::class , 'index'])->name('Orders.allproducts');
     
 });
