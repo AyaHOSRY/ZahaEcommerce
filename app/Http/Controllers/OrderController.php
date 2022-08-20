@@ -46,7 +46,7 @@ class OrderController extends Controller
         $order->total = $request->total;
 
         $order->save();
-
+        event(new OrderHasBeen($order));
         return response([
             'data'=> new OrderResource($order)
         ],201);
