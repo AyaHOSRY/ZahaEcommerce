@@ -24,14 +24,14 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-       'name' => 'required|max:255',
+       'name' => 'required|string',
        'price' => 'required|max:10',
-       'description'=>'required|text',
-       'count'=> 'required|max:10',
-       'rate'=> 'nullable|max:1',
-       'discount'=> 'nullable|max:2',
-       'occasion_id'=> 'required',
-       'department_id'=> 'required',
+       'description' =>'required',
+       'count' => 'required|max:10',
+       'rate' => 'nullable|max:1',
+       'discount' => 'nullable|max:2',
+       'occasion_id' => 'required',
+       'department_id' => 'required',
        ];
     }
 }

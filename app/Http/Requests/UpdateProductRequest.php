@@ -28,7 +28,7 @@ class UpdateProductRequest extends FormRequest
        'price' => 'required|max:10',
        'description'=>'required',
        'count'=> 'required|max:10',
-       'rate'=> 'required|max:1',
+       'rate'=> 'nullable|max:1',
        'discount'=> 'required|max:2',
        'occasion_id'=> 'required',
        'department_id'=> 'required',

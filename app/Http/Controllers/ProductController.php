@@ -19,8 +19,8 @@ class ProductController extends Controller
      */
     public function index() 
     {
-        $user = auth('api')->user();
-       return ProductResource::collection($user->products);
+      //  $user = auth('api')->user();
+       return ProductResource::collection(Product::all());
     }
 
     /**
