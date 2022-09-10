@@ -37,7 +37,7 @@ use App\Http\Controllers\ProductOrderController;
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/profile', [AuthController::class, 'profile']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    
 
     
 //Route::apiResource('products', ProductController::class);
@@ -66,6 +66,7 @@ Route::middleware('auth:api')->group(function(){
     Route::get('/departments',[DepartmentController::class , 'index'])->name('departments.index');
     Route::get('department/{department}/details',[DetailController::class , 'index'])->name('details.index');
     Route::get('products/{product}/reviews',[ReviewController::class , 'index'])->name('reviews.index');
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 //Route::apiResource('colors', ColorController::class);
